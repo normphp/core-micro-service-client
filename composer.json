@@ -1,0 +1,27 @@
+{
+    "name": "normphp-core/micro-service-client",
+    "description": "微服务、客户端、microservice",
+    "keywords": ["basics","jurisdiction","role","account"],
+    "homepage": "https://normphp.org/",
+    "authors": [
+        {
+            "name": "pizepei",
+            "email": "pizepei@pizepei.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0",
+        "normphp/helper": "dev-master",
+        "normphp-core/encryption": "dev-main"
+    },
+    "repositories": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "normphpCore\\microServiceClient\\": "src/"
+        }
+
+    }
+
+}
