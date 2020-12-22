@@ -44,7 +44,7 @@ class MicroClient
     public function __construct(\Redis $redis,array $coreConfig,array $appConfig)
     {
         # 核心配置
-        $coreConfig = $coreConfig;
+        $this->coreConfig = $coreConfig;
         # 基础配置
         $this->appConfig = $appConfig;
         # 缓存对象
@@ -64,14 +64,15 @@ class MicroClient
     public static function init(\Redis $redis, array $coreConfig,array $appConfig)
     {
         if ($coreConfig ==[] || !isset($coreConfig['appid'])){throw new  \Exception('config error');}
-        if ($appConfig ==[] || !isset($appConfig['appid'])){throw new  \Exception('app config error');}
+        if (!isset($appConfig['configId'])){throw new  \Exception('app configId config error');}
+        if (!isset($appConfig['url'])){throw new  \Exception('app url config error');}
 
         # 判断对应应用的客户端是否已经实例化
-        if (!isset(static::$clientObj[$appConfig['appid']])){
-            static::$clientObj[$appConfig['appid']] = new static($redis,$coreConfig,$appConfig);
+        if (!isset(static::$clientObj[$appConfig['configId']])){
+            static::$clientObj[$appConfig['configId']] = new static($redis,$coreConfig,$appConfig);
         }
         # 返回实例化对象
-        return static::$clientObj[$appConfig['appid']];
+        return static::$clientObj[$appConfig['configId']];
     }
 
     /**
@@ -82,8 +83,6 @@ class MicroClient
      */
     public function send(array $param)
     {
-        # 当前使用的服务
-        $this->action = $action;
         # 设置 configId
         $param['configId'] = $this->appConfig['configId']??'';
         # url
